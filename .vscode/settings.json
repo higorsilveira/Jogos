@@ -1,11 +1,14 @@
 {
     "cSpell.words": [
+        "bresenham",
+        "condlist",
         "dejavu",
         "dtype",
         "ndarray",
         "numpy",
         "struct",
         "tcod",
+        "tolist",
         "vsync"
     ]
 }
