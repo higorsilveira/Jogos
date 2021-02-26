@@ -1,6 +1,10 @@
 {
     "cSpell.words": [
         "dejavu",
+        "dtype",
+        "ndarray",
+        "numpy",
+        "struct",
         "tcod",
         "vsync"
     ]
