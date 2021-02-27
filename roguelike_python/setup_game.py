@@ -47,7 +47,7 @@ def new_game() -> Engine:
     engine.update_fov()
 
     engine.message_log.add_message(
-        "Hello and welcome, adventurer, to yet another dungeon!", color.welcome_text
+        u"Ola e Bem-Vindo Aventureiro, a uma masmorra!", color.welcome_text
     )
     
     dagger = copy.deepcopy(entity_factories.dagger)
@@ -80,21 +80,21 @@ class MainMenu(input_handlers.BaseEventHandler):
         console.print(
             console.width // 2,
             console.height // 2 - 4,
-            "TOMBS OF THE ANCIENT KINGS",
+            "UMA TUMBA SEM UM NOME DEFINIDO",
             fg=color.menu_title,
             alignment=tcod.CENTER,
         )
         console.print(
             console.width // 2,
             console.height - 2,
-            "By (Higor Pires da Silveira)",
+            "By (VANSOUL)",
             fg=color.menu_title,
             alignment=tcod.CENTER,
         )
 
-        menu_width = 24
+        menu_width = 30
         for i, text in enumerate(
-            ["[N] Play a new game", "[C] Continue last game", "[Q] Quit"]
+            ["[N] Iniciar um Novo Jogo", "[C] Continuar Jogo Anterior", "[Q] Sair"]
         ):
             console.print(
                 console.width // 2,
@@ -115,10 +115,10 @@ class MainMenu(input_handlers.BaseEventHandler):
             try:
                 return input_handlers.MainGameEventHandler(load_game("savegame.sav"))
             except FileNotFoundError:
-                return input_handlers.PopupMessage(self, "No saved game to load.")
+                return input_handlers.PopupMessage(self, "Nenhum jogo salvo para Carregar.")
             except Exception as exc:
                 traceback.print_exc()  # Print to stderr.
-                return input_handlers.PopupMessage(self, f"Failed to load save:\n{exc}")
+                return input_handlers.PopupMessage(self, f"Falha ao carregar um jogo:\n{exc}")
         elif event.sym == tcod.event.K_n:
             return input_handlers.MainGameEventHandler(new_game())
 

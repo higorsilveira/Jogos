@@ -44,7 +44,7 @@ class ConfusionConsumable(Consumable):
 
     def get_action(self, consumer: Actor) -> SingleRangedAttackHandler:
         self.engine.message_log.add_message(
-            "Select a target location.", color.needs_target
+            "Selecione um alvo.", color.needs_target
         )
         return SingleRangedAttackHandler(
             self.engine,
@@ -57,14 +57,14 @@ class ConfusionConsumable(Consumable):
         target = action.target_actor
 
         if not self.engine.game_map.visible[action.target_xy]:
-            raise Impossible("You cannot target an area that you cannot see.")
+            raise Impossible("Você não pode selecionar uma área que você não pode ver.")
         if not target:
-            raise Impossible("You must select an enemy to target.")
+            raise Impossible("Você deve selecionar um inimigo como alvo.")
         if target is consumer:
-            raise Impossible("You cannot confuse yourself!")
+            raise Impossible("Você não pode se deixar confuso!")
 
         self.engine.message_log.add_message(
-            f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
+            f"Os olhos do {target.name} parecem vazios, ele começa a tropeçar!",
             color.status_effect_applied,
         )
         target.ai = components.ai.ConfusedEnemy(
@@ -82,12 +82,12 @@ class HealingConsumable(Consumable):
 
         if amount_recovered > 0:
             self.engine.message_log.add_message(
-                f"You consume the {self.parent.name}, and recover {amount_recovered} HP!",
+                f"Você consumiu o {self.parent.name}, e recuperou {amount_recovered} HP!",
                 color.health_recovered,
             )
             self.consume()
         else:
-            raise Impossible(f"Your health is already full.")
+            raise Impossible(f"Sua vida está cheia agora.")
 
 class FireballDamageConsumable(Consumable):
     def __init__(self, damage: int, radius: int):
@@ -96,7 +96,7 @@ class FireballDamageConsumable(Consumable):
 
     def get_action(self, consumer: Actor) -> AreaRangedAttackHandler:
         self.engine.message_log.add_message(
-            "Select a target location.", color.needs_target
+            "Selecione um alvo.", color.needs_target
         )
         return AreaRangedAttackHandler(
             self.engine,
@@ -108,19 +108,19 @@ class FireballDamageConsumable(Consumable):
         target_xy = action.target_xy
 
         if not self.engine.game_map.visible[target_xy]:
-            raise Impossible("You cannot target an area that you cannot see.")
+            raise Impossible("Você não pode selecionar uma área que você não pode ver.")
 
         targets_hit = False
         for actor in self.engine.game_map.actors:
             if actor.distance(*target_xy) <= self.radius:
                 self.engine.message_log.add_message(
-                    f"The {actor.name} is engulfed in a fiery explosion, taking {self.damage} damage!"
+                    f"O {actor.name} é atingido pela explosão, causando {self.damage} de dano!"
                 )
                 actor.fighter.take_damage(self.damage)
                 targets_hit = True
 
         if not targets_hit:
-            raise Impossible("There are no targets in the radius.")
+            raise Impossible("Não existem alvos na área.")
         self.consume()
 class LightningDamageConsumable(Consumable):
     def __init__(self, damage: int, maximum_range: int):
@@ -142,9 +142,9 @@ class LightningDamageConsumable(Consumable):
 
         if target:
             self.engine.message_log.add_message(
-                f"A lighting bolt strikes the {target.name} with a loud thunder, for {self.damage} damage!"
+                f"Um raio de luz atingiu o {target.name} com um trovão alto, causando {self.damage} de dano!"
             )
             target.fighter.take_damage(self.damage)
             self.consume()
         else:
-            raise Impossible("No enemy is close enough to strike.")
+            raise Impossible("Nenhum alvo próximo para acertar.")

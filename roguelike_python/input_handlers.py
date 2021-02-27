@@ -75,7 +75,7 @@ class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
         state = self.dispatch(event)
         if isinstance(state, BaseEventHandler):
             return state
-        assert not isinstance(state, Action), f"{self!r} can not handle actions."
+        assert not isinstance(state, Action), f"{self!r} não pode usar ações."
         return self
 
     def on_render(self, console: tcod.Console) -> None:
@@ -235,7 +235,7 @@ class HistoryViewer(EventHandler):
         # Draw a frame with a custom banner title.
         log_console.draw_frame(0, 0, log_console.width, log_console.height)
         log_console.print_box(
-            0, 0, log_console.width, 1, "┤Message history├", alignment=tcod.CENTER
+            0, 0, log_console.width, 1, "┤Historico de Mensagens├", alignment=tcod.CENTER
         )
 
         # Render the message log using the cursor parameter.
@@ -298,7 +298,7 @@ class AskUserEventHandler(EventHandler):
         return MainGameEventHandler(self.engine)
 
 class CharacterScreenEventHandler(AskUserEventHandler):
-    TITLE = "Character Information"
+    TITLE = "Informaçoes do Personagem"
 
     def on_render(self, console: tcod.Console) -> None:
         super().on_render(console)
@@ -364,23 +364,23 @@ class LevelUpEventHandler(AskUserEventHandler):
             bg=(0, 0, 0),
         )
 
-        console.print(x=x + 1, y=1, string="Congratulations! You level up!")
-        console.print(x=x + 1, y=2, string="Select an attribute to increase.")
+        console.print(x=x + 1, y=1, string="Parabens! Você subiu de Nivel!")
+        console.print(x=x + 1, y=2, string="Selecione um atributo para aumentar.")
 
         console.print(
             x=x + 1,
             y=4,
-            string=f"a) Constitution (+20 HP, from {self.engine.player.fighter.max_hp})",
+            string=f"a) Constituiçao (+20 HP, de {self.engine.player.fighter.max_hp})",
         )
         console.print(
             x=x + 1,
             y=5,
-            string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
+            string=f"b) Força (+1 attack, de {self.engine.player.fighter.power})",
         )
         console.print(
             x=x + 1,
             y=6,
-            string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
+            string=f"c) Agilidade (+1 defense, de {self.engine.player.fighter.defense})",
         )
 
     def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[ActionOrHandler]:
@@ -396,7 +396,7 @@ class LevelUpEventHandler(AskUserEventHandler):
             else:
                 player.level.increase_defense()
         else:
-            self.engine.message_log.add_message("Invalid entry.", color.invalid)
+            self.engine.message_log.add_message("Opçao invalida.", color.invalid)
 
             return None
 
@@ -411,7 +411,6 @@ class LevelUpEventHandler(AskUserEventHandler):
         return None
 class InventoryEventHandler(AskUserEventHandler):
     """This handler lets the user select an item.
-
     What happens then depends on the subclass.
     """
 
@@ -475,7 +474,7 @@ class InventoryEventHandler(AskUserEventHandler):
             try:
                 selected_item = player.inventory.items[index]
             except IndexError:
-                self.engine.message_log.add_message("Invalid entry.", color.invalid)
+                self.engine.message_log.add_message("Opçao invalida.", color.invalid)
                 return None
             return self.on_item_selected(selected_item)
         return super().ev_keydown(event)
@@ -487,7 +486,7 @@ class InventoryEventHandler(AskUserEventHandler):
 class InventoryActivateHandler(InventoryEventHandler):
     """Handle using an inventory item."""
 
-    TITLE = "Select an item to use"
+    TITLE = "Selecione um item para usar"
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         if item.consumable:
@@ -502,7 +501,7 @@ class InventoryActivateHandler(InventoryEventHandler):
 class InventoryDropHandler(InventoryEventHandler):
     """Handle dropping an inventory item."""
 
-    TITLE = "Select an item to drop"
+    TITLE = "Selecione um item para largar"
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Drop this item."""

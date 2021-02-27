@@ -39,11 +39,11 @@ class Level(BaseComponent):
 
         self.current_xp += xp
 
-        self.engine.message_log.add_message(f"You gain {xp} experience points.")
+        self.engine.message_log.add_message(f"Você ganhou {xp} pontos de experiência.")
 
         if self.requires_level_up:
             self.engine.message_log.add_message(
-                f"You advance to level {self.current_level + 1}!"
+                f"Você avançou para o nível {self.current_level + 1}!"
             )
 
     def increase_level(self) -> None:
@@ -55,20 +55,20 @@ class Level(BaseComponent):
         self.parent.fighter.max_hp += amount
         self.parent.fighter.hp += amount
 
-        self.engine.message_log.add_message("Your health improves!")
+        self.engine.message_log.add_message("Sua saúde foi aumentada!")
 
         self.increase_level()
 
     def increase_power(self, amount: int = 1) -> None:
         self.parent.fighter.base_power += amount
 
-        self.engine.message_log.add_message("You feel stronger!")
+        self.engine.message_log.add_message("Você se sente mais forte!")
 
         self.increase_level()
 
     def increase_defense(self, amount: int = 1) -> None:
         self.parent.fighter.base_defense += amount
 
-        self.engine.message_log.add_message("Your movements are getting swifter!")
+        self.engine.message_log.add_message("Seus movimentos estão mais rápidos!")
 
         self.increase_level()

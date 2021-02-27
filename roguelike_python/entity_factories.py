@@ -41,41 +41,41 @@ troll = Actor(
 confusion_scroll = Item(
     char="~",
     color=(207, 63, 255),
-    name="Confusion Scroll",
+    name="Pergaminho: Confusao",
     consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 fireball_scroll = Item(
     char="~",
     color=(255, 0, 0),
-    name="Fireball Scroll",
+    name="Pergaminho: Bola de Fogo",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 health_potion = Item(
     char="!",
     color=(127, 0, 255),
-    name="Health Potion",
+    name="Porçao de Cura",
     consumable=consumable.HealingConsumable(amount=4),
 )
 lightning_scroll = Item(
     char="~",
     color=(255, 255, 0),
-    name="Lightning Scroll",
+    name="Pergaminho: Relampago",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
 dagger = Item(
-    char="/", color=(0, 191, 255), name="Dagger", equippable=equippable.Dagger()
+    char="/", color=(0, 191, 255), name="Adaga", equippable=equippable.Dagger()
 )
 
-sword = Item(char="/", color=(0, 191, 255), name="Sword", equippable=equippable.Sword())
+sword = Item(char="/", color=(0, 191, 255), name="Espada", equippable=equippable.Sword())
 
 leather_armor = Item(
     char="[",
     color=(139, 69, 19),
-    name="Leather Armor",
+    name="Armadura: Couro",
     equippable=equippable.LeatherArmor(),
 )
 
 chain_mail = Item(
-    char="[", color=(139, 69, 19), name="Chain Mail", equippable=equippable.ChainMail()
+    char="[", color=(139, 69, 19), name="Armadura: Cota de Malha", equippable=equippable.ChainMail()
 )

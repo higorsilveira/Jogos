@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 import traceback
 
 import tcod
@@ -12,7 +13,7 @@ def save_game(handler: input_handlers.BaseEventHandler, filename: str) -> None:
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, input_handlers.EventHandler):
         handler.engine.save_as(filename)
-        print("Game saved.")
+        print("Jogo Salvo.")
 
 def main() -> None:
     screen_width = 80
@@ -26,7 +27,7 @@ def main() -> None:
         screen_width,
         screen_height,
         tileset=tileset,
-        title="Yet Another Roguelike Tutorial",
+        title="Um Jogo estilo RogueLike",
         vsync=True,
     ) as context:
 

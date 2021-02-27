@@ -44,16 +44,16 @@ class PickupAction(Action):
         for item in self.engine.game_map.items:
             if actor_location_x == item.x and actor_location_y == item.y:
                 if len(inventory.items) >= inventory.capacity:
-                    raise exceptions.Impossible("Your inventory is full.")
+                    raise exceptions.Impossible("Seu inventario esta cheio!")
 
                 self.engine.game_map.entities.remove(item)
                 item.parent = self.entity.inventory
                 inventory.items.append(item)
 
-                self.engine.message_log.add_message(f"You picked up the {item.name}!")
+                self.engine.message_log.add_message(f"Voce pegou um(a) {item.name}!")
                 return
 
-        raise exceptions.Impossible("There is nothing here to pick up.")
+        raise exceptions.Impossible("Nao ha nada para pegar aqui.")
 
 class ItemAction(Action):
     def __init__(
@@ -103,10 +103,10 @@ class TakeStairsAction(Action):
         if (self.entity.x, self.entity.y) == self.engine.game_map.downstairs_location:
             self.engine.game_world.generate_floor()
             self.engine.message_log.add_message(
-                "You descend the staircase.", color.descend
+                "Voce desceu as escadas.", color.descend
             )
         else:
-            raise exceptions.Impossible("There are no stairs here.")
+            raise exceptions.Impossible("Nao ha escadas para descer.")
         
 class ActionWithDirection(Action):
     def __init__(self, entity: Actor, dx: int, dy: int):    
@@ -137,11 +137,11 @@ class MeleeAction(ActionWithDirection):
     def perform(self) -> None:
         target = self.target_actor
         if not target:
-            raise exceptions.Impossible("Nothing to attack.")
+            raise exceptions.Impossible("Nada para atacar.")
  
         damage = self.entity.fighter.power - target.fighter.defense
 
-        attack_desc = f"{self.entity.name.capitalize()} attacks {target.name}"
+        attack_desc = f"{self.entity.name.capitalize()} atacou {target.name}"
         
         if self.entity is self.engine.player:
             attack_color = color.player_atk
@@ -150,12 +150,12 @@ class MeleeAction(ActionWithDirection):
             
         if damage > 0:
             self.engine.message_log.add_message(
-                f"{attack_desc} for {damage} hit points.", attack_color
+                f"{attack_desc} causou {damage} pontos de vida.", attack_color
             )
             target.fighter.hp -= damage
         else:
             self.engine.message_log.add_message(
-                f"{attack_desc} but does no damage.", attack_color
+                f"{attack_desc} mas nao causou nenhum dano.", attack_color
             )
 
 class MovementAction(ActionWithDirection):
@@ -164,13 +164,13 @@ class MovementAction(ActionWithDirection):
 
         if not self.engine.game_map.in_bounds(dest_x, dest_y):
             # Destination is out of bounds.
-            raise exceptions.Impossible("That way is blocked.")
+            raise exceptions.Impossible("Esse caminho esta bloqueado.")
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
             # Destination is blocked by a tile.
-            raise exceptions.Impossible("That way is blocked.")
+            raise exceptions.Impossible("Esse caminho esta bloqueado.")
         if self.engine.game_map.get_blocking_entity_at_location(dest_x, dest_y):
             # Destination is blocked by an entity.
-            raise exceptions.Impossible("That way is blocked.")
+            raise exceptions.Impossible("Esse caminho esta bloqueado.")
 
         self.entity.move(self.dx, self.dy)
 
